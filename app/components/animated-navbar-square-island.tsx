@@ -2,6 +2,7 @@ import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import { Link } from "@remix-run/react"
 import { Sun, Moon } from 'lucide-react'
+import styles from '~/tailwind.css?url';
 
 const tabs = [
   { id: "home", label: "ABOUT", path: "/" },
@@ -45,7 +46,8 @@ export default function AnimatedNavbar({ isDarkMode, toggleDarkMode, path }: Ani
     <div 
       className={`fixed top-0 left-0 right-0 z-50 h-16 pt-4 mx-2 transition-transform duration-300 bg-background ${
         isVisible ? 'translate-y-0' : '-translate-y-full'
-      }`}
+      }`
+    }
     >
       <nav className="relative h-full flex items-center justify-between px-4 mx-auto max-w-7xl">
         <ul className="flex space-x-4 relative flex-grow h-full justify-center items-center">
@@ -67,6 +69,8 @@ export default function AnimatedNavbar({ isDarkMode, toggleDarkMode, path }: Ani
                   layoutId="activeTabHighlight"
                   initial={false}
                   transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                  style={{ originY: 'top' }}  
+    
                 />
               )}
             </li>
