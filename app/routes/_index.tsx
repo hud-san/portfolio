@@ -1,4 +1,4 @@
-import { useOutletContext } from "@remix-run/react";
+import { MetaFunction, useOutletContext } from "@remix-run/react";
 import React, { useState, useRef, useEffect } from 'react';
 import { Button } from "~/components/ui/button";
 import { RiArrowDropDownFill } from "react-icons/ri";
@@ -7,6 +7,15 @@ import Footer from '~/components/app-components-footer';
 import HomeSection from '~/components/app-components-home-section';
 import AboutSection from '~/components/app-components-about-section';
 import SkillsSection from '~/components/app-components-skills-section';
+
+export const meta: MetaFunction = () => {
+  return [
+    { title: "ABOUT - HUDSON AGUSTIN" },
+    { name: "description", content: "HUDSON A. A PUBLIC ARCHIVE TO DOCUMENT MY INTERESTS, WORK AND PASSIONS." },
+  ];
+};
+
+
 
 type OutletContext = {
   isDarkMode: boolean;
@@ -164,3 +173,4 @@ export default function Index() {
     </div>
   );
 }
+

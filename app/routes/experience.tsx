@@ -1,8 +1,15 @@
-import { json } from "@remix-run/node";
-import { useLoaderData } from "@remix-run/react";
+import { MetaFunction, useLoaderData } from "@remix-run/react";
 import { ExperienceSectionComponent } from '~/components/app-components-experience-section';
 import PageLayout from '~/components/page-layout';
 import { db } from "~/lib/prisma";
+import type { Experience, Education } from "~/types/types";
+
+export const meta: MetaFunction = () => {
+  return [
+    { title: "EXPERIENCE" },
+    { name: "description", content: "HUDSON A. A PUBLIC ARCHIVE TO DOCUMENT MY INTERESTS, WORK AND PASSIONS." },
+  ];
+};
 
 export async function loader() {
   const experiences = await db.experience.findMany({
@@ -13,22 +20,14 @@ export async function loader() {
     orderBy: { startDate: 'desc' }
   });
 
-  return json({
-    experiences: experiences.map(exp => ({
-      ...exp,
-      startDate: exp.startDate?.toISOString() ?? null,
-      endDate: exp.endDate?.toISOString() ?? null,
-    })),
-    educations: educations.map(edu => ({
-      ...edu,
-      startDate: edu.startDate?.toISOString() ?? null,
-      endDate: edu.endDate?.toISOString() ?? null,
-    }))
+  return Response.json({
+    experiences,
+    educations
   });
 }
 
-export default function Experience() {
-  const { experiences, educations } = useLoaderData<typeof loader>();
+export default function ExperiencePage() {
+  const { experiences, educations } = useLoaderData<{ experiences: Experience[], educations: Education[] }>();
 
   return (
     <PageLayout>
