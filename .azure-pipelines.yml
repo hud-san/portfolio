@@ -1,0 +1,22 @@
+trigger:
+  - main
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+stages:
+  - stage: DeployInfrastructure
+    jobs:
+      - job: Terraform
+        steps:
+          - checkout: self
+
+          - task: TerraformInstaller@0
+            inputs:
+              terraformVersion: 'latest'
+
+          - script: |
+              terraform init
+              terraform plan
+              terraform apply -auto-approve
+            displayName: "Deploy Docker Containers with Terraform"
