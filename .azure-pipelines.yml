@@ -2,7 +2,8 @@ trigger:
   - main
 
 pool:
-  vmImage: 'ubuntu-latest'
+  name: npd-portfolio
+  
 
 stages:
   - stage: DeployInfrastructure
