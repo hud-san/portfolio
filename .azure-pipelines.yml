@@ -17,6 +17,7 @@ stages:
               terraformVersion: 'latest'
 
           - script: |
+              cd /home/user/Terraform/
               terraform init
               terraform plan
               terraform apply -auto-approve
