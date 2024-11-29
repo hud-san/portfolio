@@ -2,23 +2,41 @@ trigger:
   - main
 
 pool:
-  name: npd-portfolio
-  
+  vmImage: 'ubuntu-latest'
 
 stages:
-  - stage: DeployInfrastructure
+  - stage: Deploy
+    displayName: Deploy Remix App and Redis
     jobs:
-      - job: Terraform
+      - job: DeployWithTerraform
+        displayName: Deploy Using Terraform
         steps:
+          # Checkout the code
           - checkout: self
 
+          # Install Terraform
           - task: TerraformInstaller@0
             inputs:
               terraformVersion: 'latest'
 
+          # Initialize Terraform
           - script: |
-              cd /home/user/Terraform/
               terraform init
+            displayName: "Initialize Terraform"
+
+          # Plan Terraform Deployment
+          - script: |
               terraform plan
+            displayName: "Plan Terraform Deployment"
+
+          # Apply Terraform Configuration
+          - script: |
               terraform apply -auto-approve
-            displayName: "Deploy Docker Containers with Terraform"
+            displayName: "Apply Terraform Deployment"
+
+          # Verify Docker Containers
+          - script: |
+              docker ps
+              docker logs remix-app
+              docker logs redis
+            displayName: "Verify Remix and Redis Containers"
