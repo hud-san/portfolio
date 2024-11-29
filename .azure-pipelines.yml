@@ -16,7 +16,7 @@ stages:
               echo "Current Directory:"
               pwd
               echo "Terraform Directory:"
-              ls -al /path/to/terraform # Replace with actual path
+              ls -al /home/user/Terraform
             displayName: "Check Files on Agent"
 
           # Initialize Terraform
