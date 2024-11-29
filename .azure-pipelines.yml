@@ -2,7 +2,7 @@ trigger:
   - main
 
 pool:
-  name:npd-portfolio
+  name: npd-portfolio
 
 stages:
   - stage: Deploy
