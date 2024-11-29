@@ -33,6 +33,6 @@ stages:
 
           # Apply Terraform Configuration
           - script: |
-              cd /path/to/terraform
+              cd /home/user/Terraform
               terraform apply -auto-approve
             displayName: "Terraform Apply"
