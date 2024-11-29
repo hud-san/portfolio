@@ -6,39 +6,33 @@ pool:
 
 stages:
   - stage: Deploy
-    displayName: Deploy Remix App and Redis
+    displayName: Deploy Terraform Configuration
     jobs:
-      - job: DeployWithTerraform
-        displayName: Deploy Using Terraform
+      - job: RunTerraform
+        displayName: Run Terraform on Agent VM
         steps:
-          # Checkout the code
-          - checkout: self
-
-          # Install Terraform
-          - task: TerraformInstaller@0
-            inputs:
-              terraformVersion: 'latest'
+          # Debug: Check working directory and files
+          - script: |
+              echo "Current Directory:"
+              pwd
+              echo "Terraform Directory:"
+              ls -al /path/to/terraform # Replace with actual path
+            displayName: "Check Files on Agent"
 
           # Initialize Terraform
           - script: |
-              cd /home/user/Terraform
+              cd /path/to/terraform # Navigate to the directory with Terraform files
               terraform init
-              terraform plan
-            displayName: "Initialize Terraform"
+            displayName: "Terraform Init"
 
           # Plan Terraform Deployment
           - script: |
+              cd /path/to/terraform
               terraform plan
-            displayName: "Plan Terraform Deployment"
+            displayName: "Terraform Plan"
 
           # Apply Terraform Configuration
           - script: |
+              cd /path/to/terraform
               terraform apply -auto-approve
-            displayName: "Apply Terraform Deployment"
-
-          # Verify Docker Containers
-          - script: |
-              docker ps
-              docker logs remix-app
-              docker logs redis
-            displayName: "Verify Remix and Redis Containers"
+            displayName: "Terraform Apply"
