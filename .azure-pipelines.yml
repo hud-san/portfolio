@@ -27,7 +27,7 @@ stages:
 
           # Plan Terraform Deployment
           - script: |
-              cd /path/to/terraform
+              cd /home/user/Terraform
               terraform plan
             displayName: "Terraform Plan"
 
