@@ -21,7 +21,7 @@ stages:
 
           # Initialize Terraform
           - script: |
-              cd /path/to/terraform # Navigate to the directory with Terraform files
+              cd /home/user/Terraform # Navigate to the directory with Terraform files
               terraform init
             displayName: "Terraform Init"
 
