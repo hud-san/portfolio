@@ -21,7 +21,9 @@ stages:
 
           # Initialize Terraform
           - script: |
+              cd /home/user/Terraform/
               terraform init
+              terraform plan
             displayName: "Initialize Terraform"
 
           # Plan Terraform Deployment
