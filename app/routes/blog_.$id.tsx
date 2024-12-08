@@ -5,34 +5,15 @@ import { useAppContext } from "~/root";
 import type { LinksFunction } from "@remix-run/node";
 import { PrismaClientKnownRequestError } from "@prisma/client/runtime/library";
 import { BlogPostLayout } from "~/components/blog-post-layout";
+import { formatDate} from "~/lib/date";
+import { Post } from "~/types/types";
 
 export const links: LinksFunction = () => [
   { rel: "stylesheet", href: "https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css" },
 ];
 
-interface Post {
-  id: string;
-  title: string;
-  content: string;
-  excerpt: string;
-  author: string;
-  date: string;
-  tag: string;
-  references: string[];
-}
-
 function isValidObjectId(id: string): boolean {
   return /^[0-9a-fA-F]{24}$/.test(id);
-}
-
-function formatDate(date: Date | string | null): string {
-  if (date instanceof Date) {
-    return date.toISOString().split('T')[0];
-  } else if (typeof date === 'string') {
-    return new Date(date).toISOString().split('T')[0];
-  } else {
-    return new Date().toISOString().split('T')[0]; // Default to current date if null
-  }
 }
 
 export const loader: LoaderFunction = async ({ params }) => {
@@ -53,6 +34,8 @@ export const loader: LoaderFunction = async ({ params }) => {
     return Response.json({
       ...post,
       date: formatDate(post.date),
+      createdAt: formatDate(post.createdAt),
+      updatedAt: formatDate(post.updatedAt),
     });
   } catch (error) {
     console.error("Error fetching post:", error);

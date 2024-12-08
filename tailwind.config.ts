@@ -12,6 +12,12 @@ export default {
           '50%': { opacity: '0' },
         },
       },
+      height: {
+        'screen-navbar': 'calc(100vh - 4rem)',
+      },
+      minHeight: {
+        'screen-navbar': 'calc(100vh - 4rem)',
+      },
       animation: {
         blink: 'blink 1s step-end infinite',
       },
