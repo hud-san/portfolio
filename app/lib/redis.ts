@@ -5,7 +5,7 @@ let redisClient: ReturnType<typeof createClient> | null = null;
 function getClient() {
   if (!redisClient) {
     redisClient = createClient({
-      url: process.env.AZURE_REDIS_CONNECTIONSTRING || 'Redis error.'
+      url: process.env.REDIS_URL || 'Redis error.'
     });
 
     redisClient.on('error', (err) => {
