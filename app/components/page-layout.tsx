@@ -2,19 +2,12 @@ import React from 'react';
 import { useOutletContext } from "@remix-run/react";
 import Footer from '~/components/app-components-footer';
 
-interface PageLayoutProps {
-  children: React.ReactNode;
-}
-
-export default function PageLayout({ children }: PageLayoutProps) {
-  const { isDarkMode } = useOutletContext<{ isDarkMode: boolean }>();
-
+export default function PageLayout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-h-screen flex flex-col">
-      <main className="flex-grow">
+    <div className="min-h-screen w-full">
+      <div className="pt-16">
         {children}
-      </main>
-      <Footer isDarkMode={isDarkMode} />
+      </div>
     </div>
   );
 }

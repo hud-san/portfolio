@@ -1,7 +1,15 @@
 import { useState, useEffect } from "react";
-import { Links, LiveReload, Meta, Outlet, Scripts, ScrollRestoration, useLocation, useOutletContext } from "@remix-run/react";
-import AnimatedNavbar from "~/components/animated-navbar-square-island";
+import { 
+  Links, 
+  Meta, 
+  Outlet, 
+  Scripts, 
+  ScrollRestoration, 
+  useLocation, 
+  useOutletContext
+} from "@remix-run/react";
 import type { LinksFunction } from "@remix-run/node";
+import AnimatedNavbar from "~/components/animated-navbar-square-island";
 
 import styles from "~/tailwind.css?url";
 
@@ -20,8 +28,7 @@ export const links: LinksFunction = () => [
   {
     rel: "stylesheet",
     href: "https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap",
-    media: "print",
-    onLoad: "this.media='all'"
+    media: "print"
   }
 ];
 
@@ -82,7 +89,6 @@ export default function App() {
         />
         <ScrollRestoration />
         <Scripts />
-        <LiveReload />
       </body>
     </html>
   );

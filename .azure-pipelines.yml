@@ -1,0 +1,38 @@
+trigger:
+  - main
+
+pool:
+  name: npd-portfolio
+
+stages:
+  - stage: Deploy
+    displayName: Deploy Terraform Configuration
+    jobs:
+      - job: RunTerraform
+        displayName: Run Terraform on Agent VM
+        steps:
+          # Debug: Check working directory and files
+          - script: |
+              echo "Current Directory:"
+              pwd
+              echo "Terraform Directory:"
+              ls -al /home/user/Terraform
+            displayName: "Check Files on Agent"
+
+          # Initialize Terraform
+          - script: |
+              cd /home/user/Terraform # Navigate to the directory with Terraform files
+              terraform init
+            displayName: "Terraform Init"
+
+          # Plan Terraform Deployment
+          - script: |
+              cd /home/user/Terraform
+              terraform plan
+            displayName: "Terraform Plan"
+
+          # Apply Terraform Configuration
+          - script: |
+              cd /home/user/Terraform
+              terraform apply -auto-approve
+            displayName: "Terraform Apply"

@@ -1,47 +1,43 @@
-import { PrismaClient } from '@prisma/client'
-import { ObjectId } from 'mongodb'
+import { PrismaClient } from '@prisma/client';
+import { MongoClient } from 'mongodb';
 
-const prisma = new PrismaClient()
+// Create MongoDB client
+const mongoClient = new MongoClient(process.env.DATABASE_URL, {
+  authSource: '$external',
+  authMechanism: 'MONGODB-X509',
+  tls: true,
+  tlsCertificateKeyFile: process.env.MONGODB_CERT_PATH,
+});
 
-async function testMongoQuery() {
+// Create Prisma client
+const prisma = new PrismaClient();
+
+async function testDatabase() {
   try {
-    // Test database connection
-    await prisma.$connect()
-    console.log('Successfully connected to the database')
+    console.log('Connecting to MongoDB...');
+    await mongoClient.connect();
+    console.log('MongoDB connected successfully.');
 
-    // Test query with a sample ObjectId
-    const sampleId = new ObjectId().toString()
-    console.log(`Testing query with sample ID: ${sampleId}`)
+    console.log('Testing Prisma queries...');
+    // Run a test query for posts
+    const posts = await prisma.post.findMany({});
+    console.log('Posts:', posts);
 
-    const post = await prisma.post.findUnique({
-      where: { id: sampleId },
-    })
+    // Run a test query for experiences
+    const experience = await prisma.experience.findUnique({
+      where: { id: 'example-id' }, // Replace with an actual ID from your database
+    });
+    console.log('Experience:', experience);
 
-    console.log('Query result:', post)
-
-    if (!post) {
-      console.log('No post found with the given ID. This is expected for a random ID.')
-      
-      // Fetch a real post ID from the database
-      const firstPost = await prisma.post.findFirst()
-      if (firstPost) {
-        console.log(`Found a real post with ID: ${firstPost.id}`)
-        
-        // Now query with this real ID
-        const realPost = await prisma.post.findUnique({
-          where: { id: firstPost.id },
-        })
-        
-        console.log('Query result with real ID:', realPost)
-      } else {
-        console.log('No posts found in the database.')
-      }
-    }
+    console.log('Database test completed successfully!');
   } catch (error) {
-    console.error('Error occurred:', error)
+    console.error('Error during database test:', error);
   } finally {
-    await prisma.$disconnect()
+    console.log('Closing database connections...');
+    await mongoClient.close();
+    await prisma.$disconnect();
+    console.log('Database connections closed.');
   }
 }
 
-testMongoQuery()
+testDatabase();

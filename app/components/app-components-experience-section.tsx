@@ -1,32 +1,11 @@
 import { ArrowUpRight } from 'lucide-react'
 import { Badge } from "~/components/ui/badge"
 import { Link } from "@remix-run/react"
-
-interface ExperienceItem {
-  id: string;
-  startDate: string;
-  endDate: string | null;
-  title: string;
-  company: string;
-  companyUrl: string;
-  description: string;
-  roles?: string[];
-  technologies: string[];
-}
-
-interface EducationItem {
-  id: string;
-  startDate: string;
-  endDate: string | null;
-  degree: string;
-  institution: string;
-  institutionUrl: string;
-  description: string | null;
-}
+import type { Experience, Education } from "~/types/types"
 
 interface ExperienceSectionProps {
-  experiences: ExperienceItem[];
-  educations: EducationItem[];
+  experiences: Experience[];
+  educations: Education[];
 }
 
 function formatDateRange(startDate: string, endDate: string | null): string {
@@ -64,7 +43,7 @@ export function ExperienceSectionComponent({ experiences, educations }: Experien
                     <ArrowUpRight className="h-4 w-4" />
                   </a>
                 </h3>
-                {experience.roles && experience.roles.length > 0 && (
+                {experience.roles.length > 0 && (
                   <div className="mt-1 flex flex-col gap-1 text-sm text-muted-foreground">
                     {experience.roles.map((role, idx) => (
                       <span key={idx} className="pl-4 relative before:content-['-'] before:absolute before:left-0 before:top-0 before:text-muted-foreground">
